@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gala_kita/service/authentication.dart';
-import 'dart:ui';
 import 'package:gala_kita/utils/global.colors.dart';
-import 'package:gala_kita/views/home_page.dart';
-import 'package:gala_kita/views/widgets/button_global.dart';
+import 'package:gala_kita/views/navigations/navigation_bar.dart';
 import 'package:gala_kita/views/widgets/social_login.dart';
-import 'package:gala_kita/views/widgets/text_form_global.dart';
-
-
+import 'package:gala_kita/views/widgets/text/text_form_global.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});
@@ -18,31 +13,47 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void _signIn() async{
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+  // void _signIn() async {
+  //   try {
+  //     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+  //       email: emailController.text,
+  //       password: passwordController.text,
+  //     );
 
-      if (userCredential.user != null) {
-        // Login berhasil, navigasi ke halaman beranda
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ));
-      }
-    } catch (e) {
-      // Login gagal, tampilkan pesan kesalahan
-      print(e.toString());
-    }
-  }
+  //     if (userCredential.user != null) {
+  //       // Login berhasil, navigasi ke halaman beranda
+  //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //         builder: (context) => HomePage(),
+  //       ));
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     // Penanganan kesalahan Firebase Authentication
+  //     String errorMessage = "Login gagal";
+  //     if (e.code == 'user-not-found') {
+  //       errorMessage = 'User tidak ditemukan.';
+  //     } else if (e.code == 'wrong-password') {
+  //       errorMessage = 'Password salah.';
+  //     }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(errorMessage),
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     // Login gagal, tampilkan pesan kesalahan
+  //     print(e.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -87,7 +98,11 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 10),
 
                 // const ButtonGlobal(),
-                ElevatedButton(onPressed: _signIn, child: Text("Login Berhasil")),
+                // ElevatedButton(
+                //     onPressed: _signIn, 
+                //     child: Text("Login Berhasil")),
+
+
                 const SizedBox(height: 25),
                 SocialLogin(),
               ],

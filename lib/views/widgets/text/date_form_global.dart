@@ -4,24 +4,23 @@ import 'package:intl/intl.dart';
 class DateFormGlobal extends StatefulWidget {
   const DateFormGlobal(
       {super.key,
-      required this.datetimeinput,
       required this.text,
       required this.textInputType,
-      required this.obscure});
-  final TextEditingController datetimeinput;
+      required this.obscure,
+      required this.controller});
   final String text;
   final TextInputType textInputType;
   final bool obscure;
+  final TextEditingController controller;
 
   @override
   State<DateFormGlobal> createState() => _DateFormGlobalState();
 }
 
 class _DateFormGlobalState extends State<DateFormGlobal> {
-  TextEditingController datetimeinput = TextEditingController();
   @override
   void initState() {
-    datetimeinput.text = "";
+    widget.controller.text = "";
     super.initState();
   }
 
@@ -46,7 +45,7 @@ class _DateFormGlobalState extends State<DateFormGlobal> {
             }
             return null;
           },
-          controller: datetimeinput,
+          controller: widget.controller,
           keyboardType: widget.textInputType,
           obscureText: widget.obscure,
           decoration: InputDecoration(
@@ -66,11 +65,11 @@ class _DateFormGlobalState extends State<DateFormGlobal> {
             if (pickedDate != null) {
               String formatDate = DateFormat('dd MMMM yyyy').format(pickedDate);
               setState(() {
-                datetimeinput.text = formatDate;
+                widget.controller.text = formatDate;
               });
             } else {
               print("Date Tidak Dipilih");
-              datetimeinput.text = "";
+              widget.controller.text = "";
             }
           }),
     );

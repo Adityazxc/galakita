@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/invitation/form2.dart';
+import 'package:gala_kita/views/invitation/form3.dart';
 import 'package:gala_kita/views/invitation/form5.dart';
 import 'package:gala_kita/views/widgets/alert/alert_close.dart';
 import 'package:gala_kita/views/widgets/text/text_form_global.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:gala_kita/views/navigations/navigation_bar.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:gala_kita/models/form_data.dart';
 
@@ -132,7 +132,7 @@ class _FormInvitation extends State<FormInvitation> {
           // if (formKey.currentState!.validate()) {
             formData.updateDataUndangan(judulUndangan.text, alamatWebsite.text);
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return FormInvitation5();
+              return FormInvitation2();
             }));
           // } else {}
         },

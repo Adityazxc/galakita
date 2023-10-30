@@ -8,7 +8,8 @@ class TextHeaderPackage extends StatelessWidget {
     required this.planText,
     required this.taglineText,
   });
-  final String titleText, planText, taglineText;
+
+  final String  planText, taglineText,titleText;
   @override
   Widget build(BuildContext context) {
     return Container(

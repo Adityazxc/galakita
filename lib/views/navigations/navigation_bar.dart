@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
         child: Text("Menu Ke 1"),
       ),
       GreetingPage(),
-      HomePage(),
+      homePage(),
       Center(
         child: Text("Menu Ke 4"),
       ),

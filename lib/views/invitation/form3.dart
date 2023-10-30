@@ -6,12 +6,11 @@ import 'package:gala_kita/views/widgets/alert/alert_close.dart';
 import 'package:gala_kita/views/widgets/time_form_global.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
-
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-// import 'form4.dart';
 import 'package:gala_kita/views/widgets/text/date_form_global.dart';
 import 'package:gala_kita/views/widgets/text/long_text_form_global.dart';
 import 'package:gala_kita/views/widgets/text/text_form_global.dart';
+import '../../models/form_data.dart';
 
 class FormInvitation3 extends StatefulWidget {
   const FormInvitation3({super.key});
@@ -24,30 +23,16 @@ class _FormInvitation3State extends State<FormInvitation3> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController mempelaiPria = TextEditingController();
   final TextEditingController mempelaiWanita = TextEditingController();
-  final TextEditingController tanggalPernikahan =
-      TextEditingController();
+  final TextEditingController tanggalPernikahan = TextEditingController();
   final TextEditingController lokasi = TextEditingController();
   final TextEditingController ceritaCinta = TextEditingController();
   final TextEditingController quote = TextEditingController();
-
-  // var _mempelaiPria, _tanggalPernikahan;
-
-  // void iniState() {
-  //   super.initState();
-  //   tanggalPernikahan.addListener(_updateText);
-  // }
-
-  // void _updateText() {
-  //   setState(() {
-  //     // _mempelaiPria = mempelaiPriaController.text;
-  //     _tanggalPernikahan = tanggalPernikahan;
-  //   });
-  // }
+  final TextEditingController jamAwal = TextEditingController();
+  final TextEditingController jamAkhir = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final formData=Provider.of(context, listen:false);
-    int selectedPlan = 0;
+    final formData = Provider.of<FormDataUndanangan>(context, listen: false);
 
     return Scaffold(
         body: SingleChildScrollView(
@@ -156,7 +141,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                       ),
                       const SizedBox(height: 15),
                       DateFormGlobal(
-                        datetimeinput: tanggalPernikahan,
+                        controller: tanggalPernikahan,
                         text: 'Masukkan tanggal acara',
                         obscure: false,
                         textInputType: TextInputType.text,
@@ -191,11 +176,13 @@ class _FormInvitation3State extends State<FormInvitation3> {
                           children: [
                             TimeFormGlobal(
                                 text: "jam awal",
+                                controller: jamAwal,
                                 textInputType: TextInputType.text,
                                 obscure: false),
                             //untuk memisahkan objek yang berdempetan
                             Expanded(child: Container()),
                             TimeFormGlobal(
+                                controller: jamAkhir,
                                 text: "jam Akhir",
                                 textInputType: TextInputType.text,
                                 obscure: false),
@@ -287,10 +274,12 @@ class _FormInvitation3State extends State<FormInvitation3> {
                     tanggalPernikahan.text,
                     ceritaCinta.text,
                     quote.text,
-                    );
+                    jamAwal.text,
+                    jamAkhir.text,
+                  );
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return FormInvitation4();
+                    return FormInvitation5();
                   }));
                   // } else {}
                 },

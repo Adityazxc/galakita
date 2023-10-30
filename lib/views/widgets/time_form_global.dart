@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TimeFormGlobal extends StatefulWidget {
+class TimeFormGlobal extends StatefulWidget{
   const TimeFormGlobal({
-    super.key,
+    Key? key,
     required this.text,
     required this.textInputType,
     required this.obscure,
+    required this.controller,
   });
   final String text;
   final TextInputType textInputType;
   final bool obscure;
-
+  final TextEditingController controller;
   @override
   State<TimeFormGlobal> createState() => _TimeFormGlobalState();
 }
 
 class _TimeFormGlobalState extends State<TimeFormGlobal> {
   TimeOfDay time = TimeOfDay(hour: 8, minute: 30);
-  TextEditingController timeinput = TextEditingController();
 
   @override
   void initState() {
-    timeinput.text = "";
+    widget.controller.text = "";
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _TimeFormGlobalState extends State<TimeFormGlobal> {
             }
             return null;
           },
-          controller: timeinput,
+          controller: widget.controller,
           keyboardType: widget.textInputType,
           obscureText: widget.obscure,
           decoration: InputDecoration(
@@ -72,7 +72,7 @@ class _TimeFormGlobalState extends State<TimeFormGlobal> {
               print(formattedTime);
 
               setState(() {
-                timeinput.text = formattedTime;
+                widget.controller.text = formattedTime;
               });
             } else {
               print("Time is not selected");

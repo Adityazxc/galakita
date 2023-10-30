@@ -4,14 +4,14 @@ import 'package:gala_kita/views/invitation/form1.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class homePage extends StatefulWidget {
+  const homePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<homePage> createState() => _homePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

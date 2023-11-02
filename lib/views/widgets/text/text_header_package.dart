@@ -12,34 +12,36 @@ class TextHeaderPackage extends StatelessWidget {
   final String  planText, taglineText,titleText;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Text(
-            titleText,
-            style: TextStyle(
-                color: GlobalColors.maintext,
-                fontSize: 25,
-                fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            planText,
-            style: TextStyle(
-                color: GlobalColors.maintext,
-                fontSize: 20,
-                fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            taglineText,
-            style: TextStyle(
-                color: GlobalColors.unselected,
-                fontSize: 18,
-                fontWeight: FontWeight.w600),
-          ),
-        ],
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          children: [
+            Text(
+              titleText,
+              style: TextStyle(
+                  color: GlobalColors.maintext,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              planText,
+              style: TextStyle(
+                  color: GlobalColors.maintext,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              taglineText,
+              style: TextStyle(
+                  color: GlobalColors.unselected,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
       ),
     );
   }

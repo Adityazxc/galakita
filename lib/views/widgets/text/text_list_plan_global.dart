@@ -24,7 +24,7 @@ class TextListPlanGlobal extends StatelessWidget {
             textList,
             style: TextStyle(
                 color: GlobalColors.unselected,
-                fontSize: 18,
+                fontSize: 12,
                 fontWeight: FontWeight.w600),
           ),
         ],

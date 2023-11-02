@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gala_kita/utils/global.colors.dart';
+import 'package:gala_kita/views/invitation/button_close.dart';
 import 'package:gala_kita/views/invitation/form2.dart';
 import 'package:gala_kita/views/invitation/form3.dart';
 import 'package:gala_kita/views/invitation/form5.dart';
-import 'package:gala_kita/views/widgets/alert/alert_close.dart';
+import 'package:gala_kita/views/invitation/get_list_theme.dart';
+import 'package:gala_kita/views/invitation/views_list_package.dart';
 import 'package:gala_kita/views/widgets/text/text_form_global.dart';
+import 'package:gala_kita/views/widgets/text/text_header_package.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:gala_kita/models/form_data.dart';
 
+import '../../service/list_theme.dart';
 
 class FormInvitation extends StatefulWidget {
   FormInvitation({super.key});
@@ -19,16 +21,71 @@ class FormInvitation extends StatefulWidget {
 }
 
 class _FormInvitation extends State<FormInvitation> {
+  List theme = [];
+  List<Color> borderColors = [];
+  int? categoryTheme =1;
+
   final formKey = GlobalKey<FormState>();
-  final TextEditingController judulUndangan = TextEditingController();
-  final TextEditingController alamatWebsite = TextEditingController();
+  final TextEditingController titleInvitation = TextEditingController();
+  final TextEditingController urlWebInvitation = TextEditingController();
+  String previewUrlInvitation = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadThemeData(categoryTheme);
+    urlWebInvitation.addListener(() {
+      setState(() {
+        previewUrlInvitation = urlWebInvitation.text;
+      });
+    });
+  }
+
+  Future<void> loadThemeData(categoryTheme) async {
+    final themeData = await allTheme();
+    final filteredTheme=<Map<String, dynamic>>[];
+    final categories=Set<int>();//agar data tidak double
 
 
+    themeData.forEach((theme) {
+      final categoryId=theme['categoryId'];
+      if(!categories.contains(categoryId)){
+        // Menambahkan kategori unik ke daftar kategori
+        categories.add(categoryId);
+      }if(categoryId == categoryTheme){//mengganti '1' dengan ID kategori yang ingin di
+        filteredTheme.add(theme);
+      }
+    });
+
+    setState(() {
+      theme = filteredTheme;
+      borderColors = List.generate(theme.length, (index) => Colors.white);
+    });
+    print("Daftar Kategori:");
+    categories.forEach((categoryId) {
+      print("Category ID: $categoryId");
+    });
+  }
+
+  void selectTheme(int index) {
+    setState(() {
+      borderColors = List.generate(theme.length, (i) {
+        return i == index ? GlobalColors.mainColor : Colors.white;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-  final formData= Provider.of<FormDataUndanangan>(context,listen :false);    
+    final formData = Provider.of<FormDataUndanangan>(context, listen: false);
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.all(15.0),
         child: Form(
@@ -36,37 +93,7 @@ class _FormInvitation extends State<FormInvitation> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 300),
-                        Container(
-                          child: const Icon(
-                            Icons.close,
-                            size: 50,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      showAlert(context,QuickAlertType.confirm);
-                    }),
-                const SizedBox(height: 20),
-                Text(
-                  'Langkah 1 dari 5 ',
-                  style: TextStyle(
-                      color: GlobalColors.textColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 15),
-                StepProgressIndicator(
-                  totalSteps: 5,
-                  currentStep: 1,
-                  selectedColor: GlobalColors.mainColor,
-                  unselectedColor: GlobalColors.unselected,
-                ),
-                const SizedBox(height: 50),
+                ButtonClose(text: "Langkah 1 dari 5", currentStep: 1),
                 Text(
                   'Judul Undangan ',
                   style: TextStyle(
@@ -76,7 +103,7 @@ class _FormInvitation extends State<FormInvitation> {
                 ),
                 const SizedBox(height: 15),
                 TextFormGlobal(
-                  controller: judulUndangan,
+                  controller: titleInvitation,
                   text: 'Undangan Benno Tyas',
                   error: "Judul Undangan tidak boleh kosong",
                   obscure: false,
@@ -100,7 +127,7 @@ class _FormInvitation extends State<FormInvitation> {
                 ),
                 const SizedBox(height: 15),
                 TextFormGlobal(
-                  controller: alamatWebsite,
+                  controller: urlWebInvitation,
                   text: 'benno-tyas',
                   error: "Alamat Website tidak boleh kosong",
                   obscure: false,
@@ -108,19 +135,70 @@ class _FormInvitation extends State<FormInvitation> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'https://galakita.com/u/benno-tyas',
+                  'https://galakita.com/u/$previewUrlInvitation',
                   style: TextStyle(
                     color: GlobalColors.textColor,
                     fontSize: 10,
                   ),
                 ),
                 const SizedBox(height: 15),
-                Text(
-                  'Tema ',
-                  style: TextStyle(
-                      color: GlobalColors.textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tema ',
+                      style: TextStyle(
+                          color: GlobalColors.textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: DropdownButtonFormField(
+                          items: const <DropdownMenuItem<int>>[
+                            DropdownMenuItem<int>(
+                                value: 1,
+                                child: Text("Minimalist")
+                            ), DropdownMenuItem<int>(
+                                value: 2,
+                                child: Text("Dark")
+                            ), DropdownMenuItem<int>(
+                                value: 3,
+                                child: Text("all")
+                            ),
+                          ],
+                          onChanged: (int? newValue){
+                            setState(() {
+                              categoryTheme=newValue;
+                            });
+                            loadThemeData(categoryTheme);
+                            print(categoryTheme);
+                          }),
+                    )
+                  ],
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: theme.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final data = entry.value;
+                      print("${data["name"]}");
+                      return GestureDetector(
+                        onTap: () {
+                          selectTheme(index);
+                          final idTheme = "${data['id']}";
+                          final saveTheme = Provider.of<FormDataUndanangan>(
+                              context,
+                              listen: false);
+                          saveTheme.updateSelectPackage(idTheme);
+                          print(idTheme);
+                        },
+                        child:getListTheme(context, data, borderColors[index]),
+
+                      );
+                    }).toList(),
+                  ),
                 ),
               ],
             )),
@@ -130,13 +208,14 @@ class _FormInvitation extends State<FormInvitation> {
         backgroundColor: GlobalColors.mainColor,
         onPressed: () {
           // if (formKey.currentState!.validate()) {
-            formData.updateDataUndangan(judulUndangan.text, alamatWebsite.text);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return FormInvitation2();
-            }));
+          formData.updateDataInvitation(
+              titleInvitation.text, urlWebInvitation.text);
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return FormInvitation2();
+          }));
           // } else {}
         },
-        child:const Icon(Icons.keyboard_arrow_right),
+        child: const Icon(Icons.keyboard_arrow_right),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

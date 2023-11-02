@@ -1,57 +1,55 @@
 import 'package:flutter/material.dart';
 
 class FormDataUndanangan extends ChangeNotifier {
-  String judulUndangan = '';
-  String alamatWebsite = ' ';
+  String titleInvitation = '';
+  String urlWebInvitation = ' ';
   String mempelaiPria = '';
   String mempelaiWanita = '';
-  String lokasi = '';
-  String tanggalPernikahan = '';
-  String ceritaCinta = '';
+  String weddingLocation = '';
+  String weddingDate = '';
+  String loveStory = '';
   String quote = '';
-  String jamAwal = '';
-  String jamAkhir = '';
-  String pilihPaket= '';
-  String idPaket='';
+  String eventStartTime = '';
+  String eventTimeEnds = '';
+  String selectPackage= '';
+  String idPackage='';
 
 
-  void updateDataUndangan(
-    String newJudulUndangan,
-    String newAlamatWebsite,
+  void updateDataInvitation(
+    String newTitleInvitation,
+    String newUrlWebInvitation,
   ) {
-    judulUndangan = newJudulUndangan;
-    alamatWebsite = newAlamatWebsite;
+    titleInvitation = newTitleInvitation;
+    urlWebInvitation = newUrlWebInvitation;
 
     notifyListeners(); //untuk memberitahu listenenr (widget) bahwa data berubah
   }
 
-  void updateDetailUndangan(
+  void updateDetailInvitation(
     String newMempelaiPria,
     String newMempelaiWanita,
-    String newLokasi,
-    String newTanggalPernikahan,
-    String newCeritaCinta,
+    String newWeddingLocation,
+    String newWeddingDate,
+    String newLoveStory,
     String newQuote,
-      String newJamAwal,
-      String newJamAkhir,
+      String newEventStartTime,
+      String newEventTimeEnds,
   ) {
     mempelaiPria = newMempelaiPria;
     mempelaiWanita = newMempelaiWanita;
-    lokasi = newLokasi;
-    tanggalPernikahan = newTanggalPernikahan;
-    ceritaCinta = newCeritaCinta;
+    weddingLocation = newWeddingLocation;
+    weddingDate = newWeddingDate;
+    loveStory = newLoveStory;
     quote = newQuote;
-    jamAwal=newJamAwal;
-    jamAkhir=newJamAkhir;
+    eventStartTime=newEventStartTime;
+    eventTimeEnds=newEventTimeEnds;
     notifyListeners(); //untuk memberitahu listenenr (widget) bahwa data berubah
   }
 
-  void updatePilihPaket(
-      // String newPilihPaket,
-      String newIdPaket,
+  void updateSelectPackage(
+      String newIdPackage,
       ){
-    // pilihPaket=newPilihPaket;
-    idPaket=newIdPaket;
+    idPackage=newIdPackage;
     notifyListeners();
   }
 }

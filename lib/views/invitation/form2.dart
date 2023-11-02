@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gala_kita/models/form_data.dart';
 import 'package:gala_kita/service/list_package.dart';
 import 'package:gala_kita/utils/global.colors.dart';
+import 'package:gala_kita/views/invitation/button_close.dart';
 import 'package:gala_kita/views/invitation/form3.dart';
+import 'package:gala_kita/views/invitation/form5.dart';
 import 'package:gala_kita/views/invitation/views_list_package.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:gala_kita/views/widgets/alert/alert_close.dart';
-
 
 class FormInvitation2 extends StatefulWidget {
   FormInvitation2({Key? key}) : super(key: key);
@@ -19,6 +17,7 @@ class FormInvitation2 extends StatefulWidget {
 
 class _FormInvitation2State extends State<FormInvitation2> {
   List _package = [];
+  List<Color> borderColors = [];
 
   @override
   void initState() {
@@ -30,6 +29,15 @@ class _FormInvitation2State extends State<FormInvitation2> {
     final packageData = await allPackage();
     setState(() {
       _package = packageData;
+      borderColors = List.generate(_package.length, (index) => Colors.white);
+    });
+  }
+
+  void selectPackage(int index) {
+    setState(() {
+      borderColors = List.generate(_package.length, (i) {
+        return i == index ? GlobalColors.mainColor : Colors.white;
+      });
     });
   }
 
@@ -44,34 +52,7 @@ class _FormInvitation2State extends State<FormInvitation2> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-            InkWell(
-                child: Container(
-                  child: Icon(
-                    Icons.close,
-                    size: 50,
-                    color: GlobalColors.unselected,
-                  ),
-                ),
-                onTap: () async {
-                  showAlert(context, QuickAlertType.confirm);
-                }),
-            const SizedBox(height: 20),
-            Text(
-              'Langkah 2 dari 5 ',
-              style: TextStyle(
-                  color: GlobalColors.textColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 15),
-            StepProgressIndicator(
-              totalSteps: 5,
-              currentStep: 2,
-              selectedColor: GlobalColors.mainColor,
-              unselectedColor: GlobalColors.unselected,
-            ),
-            const SizedBox(height: 50),
+            ButtonClose(text: "Langkah 2 dari 5",currentStep: 2),
             Center(
                 child: Text(
               'Pilih Paket ',
@@ -107,18 +88,24 @@ class _FormInvitation2State extends State<FormInvitation2> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: _package.map((data) {
+                children: _package.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final data = entry.value;
                   return GestureDetector(
-                    onTap: (){
-                      final idPaket="${data['id']}";
-                      final simpanPaket=Provider.of<FormDataUndanangan>(context, listen:false);
-                      simpanPaket.updatePilihPaket(idPaket);
+                    onTap: () {
+                      selectPackage(index);
+                      final idPaket = "${data['id']}";
+                      final simpanPaket = Provider.of<FormDataUndanangan>(
+                          context,
+                          listen: false);
+                      simpanPaket.updateSelectPackage(idPaket);
                       print(idPaket);
                     },
                     child: Container(
                       width: 250,
                       margin: const EdgeInsets.all(10),
-                      child: buildPackageItem(data),
+                      child:
+                          buildPackageItem(context, data, borderColors[index]),
                     ),
                   );
                 }).toList(),

@@ -1,0 +1,103 @@
+{
+  "code": 200,
+  "status": "success",
+  "message": "Success get all the themes",
+  "data": [
+    {
+      "id": 1,
+      "name": "Dark Boho",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/logo-wismilakspesial_Yxc-WSqQn.jpg",
+      "categoryId": 2,
+      "createdAt": "2023-01-10T06:40:44.015Z",
+      "updatedAt": "2023-01-10T06:40:44.015Z",
+      "deletedAt": null,
+      "category": {
+        "id": 2,
+        "name": "Dark",
+        "createdAt": "2023-01-10T06:39:27.586Z",
+        "updatedAt": "2023-01-14T10:49:41.222Z",
+        "deletedAt": null
+      }
+    },
+    {
+      "id": 2,
+      "name": "Dark Horizon",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/Horizon_Call_of_the_Mountain_cover_art_arD8HsEs7E.jpg",
+      "categoryId": 1,
+      "createdAt": "2023-01-14T11:04:21.518Z",
+      "updatedAt": "2023-01-14T11:04:21.518Z",
+      "deletedAt": null,
+      "category": {
+        "id": 1,
+        "name": "Minimalist",
+        "createdAt": "2023-01-10T06:39:17.584Z",
+        "updatedAt": "2023-01-10T06:39:17.584Z",
+        "deletedAt": null
+      }
+    },
+    {
+      "id": 3,
+      "name": "Elegant Floral",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/Elegant_Floral_Invitation_Template_cUmmvMQMhwN.jpg",
+      "categoryId": 2,
+      "createdAt": "2023-01-15T08:32:15.123Z",
+      "updatedAt": "2023-01-15T08:32:15.123Z",
+      "deletedAt": null,
+      "category": {
+        "id": 2,
+        "name": "Dark",
+        "createdAt": "2023-01-10T06:39:27.586Z",
+        "updatedAt": "2023-01-14T10:49:41.222Z",
+        "deletedAt": null
+      }
+    },
+    {
+      "id": 4,
+      "name": "Minimalist Gray",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/Minimalist_Gray_Invitation_Template_LHCyMN48r.jpg",
+      "categoryId": 1,
+      "createdAt": "2023-01-15T09:20:01.325Z",
+      "updatedAt": "2023-01-15T09:20:01.325Z",
+      "deletedAt": null,
+      "category": {
+        "id": 1,
+        "name": "Minimalist",
+        "createdAt": "2023-01-10T06:39:17.584Z",
+        "updatedAt": "2023-01-10T06:39:17.584Z",
+        "deletedAt": null
+      }
+    },
+    {
+      "id": 5,
+      "name": "Romantic Hearts",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/Romantic_Hearts_Invitation_Template_rryqrEPh2Gk.jpg",
+      "categoryId": 2,
+      "createdAt": "2023-01-15T09:21:44.527Z",
+      "updatedAt": "2023-01-15T09:21:44.527Z",
+      "deletedAt": null,
+      "category": {
+        "id": 2,
+        "name": "Dark",
+        "createdAt": "2023-01-10T06:39:27.586Z",
+        "updatedAt": "2023-01-14T10:49:41.222Z",
+        "deletedAt": null
+      }
+    },
+    {
+      "id": 6,
+      "name": "Golden Elegance",
+      "thumbnail": "https://ik.imagekit.io/x5sfnvfxh/Golden_Elegance_Invitation_Template_bVthEdg8hqJ.jpg",
+      "categoryId": 1,
+      "createdAt": "2023-01-15T09:22:51.015Z",
+      "updatedAt": "2023-01-15T09:22:51.015Z",
+      "deletedAt": null,
+      "category": {
+        "id": 1,
+        "name": "Minimalist",
+        "createdAt": "2023-01-10T06:39:17.584Z",
+        "updatedAt": "2023-01-10T06:39:17.584Z",
+        "deletedAt": null
+      }
+    }
+  ]
+}

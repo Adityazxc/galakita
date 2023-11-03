@@ -6,6 +6,7 @@ import 'package:gala_kita/views/invitation/button_close.dart';
 import 'package:gala_kita/views/invitation/form3.dart';
 import 'package:gala_kita/views/invitation/form5.dart';
 import 'package:gala_kita/views/invitation/views_list_package.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class FormInvitation2 extends StatefulWidget {
@@ -18,7 +19,7 @@ class FormInvitation2 extends StatefulWidget {
 class _FormInvitation2State extends State<FormInvitation2> {
   List _package = [];
   List<Color> borderColors = [];
-
+  int? selectedPackage;
   @override
   void initState() {
     super.initState();
@@ -93,7 +94,10 @@ class _FormInvitation2State extends State<FormInvitation2> {
                   final data = entry.value;
                   return GestureDetector(
                     onTap: () {
+                      setState(() {
+                        selectedPackage=index;
                       selectPackage(index);
+                      });
                       final idPaket = "${data['id']}";
                       final simpanPaket = Provider.of<FormDataUndanangan>(
                           context,
@@ -131,10 +135,18 @@ class _FormInvitation2State extends State<FormInvitation2> {
               heroTag: "btn2",
               backgroundColor: GlobalColors.mainColor,
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return FormInvitation3();
-                }));
+                if(selectedPackage != null){
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          child: FormInvitation3()));
+
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Pilih Paket terlebih dahulu"),)
+                  );
+                }
               },
               child: const Icon(Icons.keyboard_arrow_right),
             ),

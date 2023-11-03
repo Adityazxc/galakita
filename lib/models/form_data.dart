@@ -13,6 +13,21 @@ class FormDataUndanangan extends ChangeNotifier {
   String eventTimeEnds = '';
   String selectPackage= '';
   String idPackage='';
+  String idTheme='';
+
+  // String titleInvitation = 'Undangan Benno';
+  // String urlWebInvitation = '';
+  // String mempelaiPria = 'Benno Anggara';
+  // String mempelaiWanita = 'Tyas aja';
+  // String weddingLocation = 'Dipatiukur';
+  // String weddingDate = '16 februari 2022';
+  // String loveStory = 'lalalal';
+  // String quote = 'huhuy';
+  // String eventStartTime = '16:00';
+  // String eventTimeEnds = '17:00';
+  // String selectPackage= '5';
+  // String idPackage='1';
+  // String idTheme='1';
 
 
   void updateDataInvitation(
@@ -50,6 +65,13 @@ class FormDataUndanangan extends ChangeNotifier {
       String newIdPackage,
       ){
     idPackage=newIdPackage;
+    notifyListeners();
+  }
+
+  void updateSelectTheme(
+      String newIdTheme
+      ) {
+    idTheme=newIdTheme;
     notifyListeners();
   }
 }

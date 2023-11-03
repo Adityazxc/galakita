@@ -23,7 +23,7 @@ class ProfilePage extends StatelessWidget {
             Container(
                 child: const Center(
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/profile.png'),
+                      backgroundImage: AssetImage('assets/images/bride.png'),
                       radius: 75,
                     ))),
             const SizedBox(height: 35),
@@ -54,12 +54,12 @@ class ProfilePage extends StatelessWidget {
                         leading: const Icon(Icons.language),
                         title: const Text('Bahasa'),
                         value: const Text('Indonesia'),
-                        onPressed: (context) {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const Language();
-                          }));
-                        },
+                        // onPressed: (context) {
+                        //   Navigator.of(context)
+                        //       .push(MaterialPageRoute(builder: (context) {
+                        //     return const Language();
+                        //   }));
+                        // },
                       ),
                       SettingsTile.navigation(
                         leading: const Icon(Icons.privacy_tip),

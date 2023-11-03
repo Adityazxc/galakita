@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gala_kita/models/form_data.dart';
+import 'package:gala_kita/service/list_theme.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/invitation/form4.dart';
+import 'package:gala_kita/views/invitation/preview/preview.dart';
 import 'package:gala_kita/views/invitation/views_list_package.dart';
+import 'package:get/get.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../service/list_package.dart';
 import '../navigations/navigation_bar.dart';
+import 'button_close.dart';
 
 class FormInvitation5 extends StatefulWidget {
   FormInvitation5({Key? key}) : super(key: key);
@@ -18,18 +23,27 @@ class FormInvitation5 extends StatefulWidget {
 class _FormInvitation5State extends State<FormInvitation5> {
   // String tanggalPernikahan;
   List _package = [];
+  List _theme = [];
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     _loadPackageData();
+    loadThemeData();
   }
 
   Future<void> _loadPackageData() async {
     final packageData = await allPackage();
     setState(() {
       _package = packageData;
+    });
+  }
+
+  Future<void> loadThemeData() async {
+    final themeData = await allTheme();
+    setState(() {
+      _theme = themeData;
     });
   }
 
@@ -40,8 +54,12 @@ class _FormInvitation5State extends State<FormInvitation5> {
     final idPackage = formData.idPackage;
     final package = _package[int.parse(idPackage) - 1];
     final price = package['price'];
-    var  topping= 100000;
-    final totalPrice= topping+price;
+
+    final idTheme = formData.idTheme;
+    final theme = _theme[int.parse(idTheme) - 1];
+
+    var topping = 100000;
+    final totalPrice = topping + price;
 
     return Scaffold(
         body: SingleChildScrollView(
@@ -50,42 +68,9 @@ class _FormInvitation5State extends State<FormInvitation5> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
-                          child: Container(
-                            child: Icon(
-                              Icons.close,
-                              size: 50,
-                              color: GlobalColors.unselected,
-                            ),
-                          ),
-                          onTap: () async {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return Home();
-                            }));
-                          }),
-                      const SizedBox(height: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Langkah 5 dari 5 ',
-                            style: TextStyle(
-                                color: GlobalColors.textColor,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      StepProgressIndicator(
-                        totalSteps: 5,
-                        currentStep: 5,
-                        selectedColor: GlobalColors.mainColor,
-                        unselectedColor: GlobalColors.unselected,
-                      ),
+                      ButtonClose(text: "Langkah 5 dari 5", currentStep: 5),
                       Text(
-                        'Pembayaran ',
+                        "Pembayaran",
                         style: TextStyle(
                             color: GlobalColors.maintext,
                             fontSize: 20,
@@ -110,6 +95,11 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
                                     children: [
+                                      Center(
+                                        widthFactor: 0.5,
+                                        child: Text(theme['name']),
+                                      ),
+                                      const SizedBox(height: 15),
                                       Image.asset('assets/images/theme.png'),
                                       const SizedBox(height: 15),
                                       Container(
@@ -159,8 +149,7 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                                     Icon(Icons.calendar_month),
                                                     const SizedBox(width: 10),
                                                     Text(
-                                                      formData
-                                                          .weddingDate,
+                                                      formData.weddingDate,
                                                       style: TextStyle(
                                                           color: GlobalColors
                                                               .unselected,
@@ -197,7 +186,13 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                           )),
                                       const SizedBox(height: 20),
                                       ElevatedButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                  type: PageTransitionType.bottomToTop,
+                                                  child: PreviewInvitation()));
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             primary: Colors.white,
                                             side: BorderSide(
@@ -244,7 +239,6 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                 color: GlobalColors.maintext,
                                 fontWeight: FontWeight.w600),
                           ),
-
                           Text(
                             formatCurrency(price),
                             style: TextStyle(
@@ -266,7 +260,6 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                 color: GlobalColors.maintext,
                                 fontWeight: FontWeight.w600),
                           ),
-
                           Text(
                             formatCurrency(topping),
                             style: TextStyle(
@@ -288,7 +281,6 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                 color: GlobalColors.maintext,
                                 fontWeight: FontWeight.bold),
                           ),
-
                           Text(
                             formatCurrency(totalPrice),
                             style: TextStyle(
@@ -314,12 +306,10 @@ class _FormInvitation5State extends State<FormInvitation5> {
               FloatingActionButton(
                 backgroundColor: GlobalColors.mainColor,
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return FormInvitation4();
-                    }));
-                  } else {}
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return Home();
+                  }));
                 },
                 child: Icon(Icons.keyboard_arrow_right),
               ),

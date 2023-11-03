@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:gala_kita/views/invitation/form1.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
+import 'main_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}):super(key: key);
@@ -10,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 1),(){
-      Get.to(()=>FormInvitation());
+      Get.to(()=>LoginView());
     });
     return const Scaffold(
       body: Center(

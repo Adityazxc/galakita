@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gala_kita/main.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 
+import '../navigations/navigation_bar.dart';
+
 class ButtonGlobal extends StatelessWidget {
   const ButtonGlobal({super.key});
 
@@ -10,7 +12,7 @@ class ButtonGlobal extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return MyApp();
+          return Home();
         }));
 
         ScaffoldMessenger.of(context).clearSnackBars();

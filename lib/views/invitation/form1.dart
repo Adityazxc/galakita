@@ -8,6 +8,7 @@ import 'package:gala_kita/views/invitation/get_list_theme.dart';
 import 'package:gala_kita/views/invitation/views_list_package.dart';
 import 'package:gala_kita/views/widgets/text/text_form_global.dart';
 import 'package:gala_kita/views/widgets/text/text_header_package.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:gala_kita/models/form_data.dart';
 
@@ -24,6 +25,7 @@ class _FormInvitation extends State<FormInvitation> {
   List theme = [];
   List<Color> borderColors = [];
   int? categoryTheme =1;
+  int? selectedThemeIndex;
 
   final formKey = GlobalKey<FormState>();
   final TextEditingController titleInvitation = TextEditingController();
@@ -43,16 +45,17 @@ class _FormInvitation extends State<FormInvitation> {
 
   Future<void> loadThemeData(categoryTheme) async {
     final themeData = await allTheme();
-    final filteredTheme=<Map<String, dynamic>>[];
-    final categories=Set<int>();//agar data tidak double
-
+    final filteredTheme = <Map<String, dynamic>>[];
+    final categories = Set<int>(); //agar data tidak double
 
     themeData.forEach((theme) {
-      final categoryId=theme['categoryId'];
-      if(!categories.contains(categoryId)){
+      final categoryId = theme['categoryId'];
+      if (!categories.contains(categoryId)) {
         // Menambahkan kategori unik ke daftar kategori
         categories.add(categoryId);
-      }if(categoryId == categoryTheme){//mengganti '1' dengan ID kategori yang ingin di
+      }
+      if (categoryId == categoryTheme) {
+        //mengganti '1' dengan ID kategori yang ingin di
         filteredTheme.add(theme);
       }
     });
@@ -155,25 +158,29 @@ class _FormInvitation extends State<FormInvitation> {
                     SizedBox(
                       width: 150,
                       child: DropdownButtonFormField(
-                          items: const <DropdownMenuItem<int>>[
-                            DropdownMenuItem<int>(
-                                value: 1,
-                                child: Text("Minimalist")
-                            ), DropdownMenuItem<int>(
-                                value: 2,
-                                child: Text("Dark")
-                            ), DropdownMenuItem<int>(
-                                value: 3,
-                                child: Text("all")
-                            ),
-                          ],
-                          onChanged: (int? newValue){
-                            setState(() {
-                              categoryTheme=newValue;
-                            });
-                            loadThemeData(categoryTheme);
-                            print(categoryTheme);
-                          }),
+                        items: const <DropdownMenuItem<int>>[
+                          DropdownMenuItem<int>(
+                              value: 1, child: Text("Minimalist")),
+                          DropdownMenuItem<int>(value: 2, child: Text("Dark")),
+                          DropdownMenuItem<int>(value: 3, child: Text("all")),
+                        ],
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            categoryTheme = newValue;
+                          });
+                          // Mengambil ID tema yang sesuai dengan kategori yang dipilih
+                          final selectedTheme = theme.firstWhere(
+                              (theme) => theme['categoryID'] == categoryTheme);
+                          final idTheme = selectedTheme['id'].toString();
+
+                          final saveTheme = Provider.of<FormDataUndanangan>(
+                              context,
+                              listen: false);
+                          saveTheme.updateSelectPackage(idTheme);
+                          print("ini kategori theme $newValue");
+                          loadThemeData(categoryTheme);
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -183,19 +190,21 @@ class _FormInvitation extends State<FormInvitation> {
                     children: theme.asMap().entries.map((entry) {
                       final index = entry.key;
                       final data = entry.value;
-                      print("${data["name"]}");
+                      // print("${data["name"]}");
                       return GestureDetector(
                         onTap: () {
-                          selectTheme(index);
+                          setState(() {
+                            selectedThemeIndex = index;
+                            selectTheme(index);
+                          });
                           final idTheme = "${data['id']}";
                           final saveTheme = Provider.of<FormDataUndanangan>(
                               context,
                               listen: false);
-                          saveTheme.updateSelectPackage(idTheme);
-                          print(idTheme);
+                          saveTheme.updateSelectTheme(idTheme);
+                          print("ini id theme $idTheme");
                         },
-                        child:getListTheme(context, data, borderColors[index]),
-
+                        child: getListTheme(context, data, borderColors[index]),
                       );
                     }).toList(),
                   ),
@@ -207,13 +216,20 @@ class _FormInvitation extends State<FormInvitation> {
         heroTag: "btn1",
         backgroundColor: GlobalColors.mainColor,
         onPressed: () {
-          // if (formKey.currentState!.validate()) {
-          formData.updateDataInvitation(
-              titleInvitation.text, urlWebInvitation.text);
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return FormInvitation2();
-          }));
-          // } else {}
+          if (formKey.currentState != null &&
+              formKey.currentState!.validate() &&
+              selectedThemeIndex != null) {
+            formData.updateDataInvitation(
+                titleInvitation.text, urlWebInvitation.text);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeftWithFade,
+                    child: FormInvitation2()));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Pilih tema telebih dahulu")));
+          }
         },
         child: const Icon(Icons.keyboard_arrow_right),
       ),

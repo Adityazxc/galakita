@@ -1,4 +1,5 @@
 import 'package:gala_kita/utils/global.colors.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,11 @@ void showAlert(BuildContext context,QuickAlertType quickAlertType) {
         cancelBtnText: 'Tidak',
         confirmBtnColor: GlobalColors.mainColor,
         onConfirmBtnTap: () =>
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return Home();
-            })));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade,
+                    child: Home())));
   }
 
  

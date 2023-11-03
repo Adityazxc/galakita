@@ -49,7 +49,7 @@ Widget buildToppingsList(List<dynamic> toppings) {
         return Column(
           children: [
             TextListPlanGlobal(
-                textList: "${topping['topping']['value']} "
+                textList: "${topping['topping']['value']}"
                           "${topping['topping']['tag']}"
             ),
           ],

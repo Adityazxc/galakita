@@ -19,14 +19,14 @@ class FormInvitation3 extends StatefulWidget {
 
 class _FormInvitation3State extends State<FormInvitation3> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController mempelaiPria = TextEditingController();
-  final TextEditingController mempelaiWanita = TextEditingController();
-  final TextEditingController weddingDate = TextEditingController();
-  final TextEditingController weddingLocation = TextEditingController();
-  final TextEditingController loveStory = TextEditingController();
-  final TextEditingController quote = TextEditingController();
-  final TextEditingController eventStartTime = TextEditingController();
-  final TextEditingController eventTimeEnds = TextEditingController();
+  final TextEditingController mempelaiPriaController = TextEditingController();
+  final TextEditingController mempelaiWanitaController = TextEditingController();
+  final TextEditingController weddingDateController = TextEditingController();
+  final TextEditingController weddingLocationController = TextEditingController();
+  final TextEditingController loveStoryController = TextEditingController();
+  final TextEditingController quoteController = TextEditingController();
+  final TextEditingController eventStartTimeController = TextEditingController();
+  final TextEditingController eventTimeEndsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     TextFormGlobal(
-                                      controller: mempelaiPria,
+                                      controller: mempelaiPriaController,
                                       text: 'Benno',
                                       error:
                                           "Nama Mempelai Pria tidak boleh kosong",
@@ -78,7 +78,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     TextFormGlobal(
-                                      controller: mempelaiWanita,
+                                      controller: mempelaiWanitaController,
                                       error:
                                           "Nama Mempelai Wanita tidak boleh kosong",
                                       text: 'Tyas',
@@ -95,7 +95,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     DateFormGlobal(
-                                      controller: weddingDate,
+                                      controller: weddingDateController,
                                       text: 'Masukkan tanggal acara',
                                       obscure: false,
                                       textInputType: TextInputType.text,
@@ -132,13 +132,13 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                         children: [
                                           TimeFormGlobal(
                                               text: "jam awal",
-                                              controller: eventStartTime,
+                                              controller: eventStartTimeController,
                                               textInputType: TextInputType.text,
                                               obscure: false),
                                           //untuk memisahkan objek yang berdempetan
                                           Expanded(child: Container()),
                                           TimeFormGlobal(
-                                              controller: eventTimeEnds,
+                                              controller: eventTimeEndsController,
                                               text: "jam Akhir",
                                               textInputType: TextInputType.text,
                                               obscure: false),
@@ -155,7 +155,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     TextFormGlobal(
-                                      controller: weddingLocation,
+                                      controller: weddingLocationController,
                                       text: 'benno-tyas',
                                       error: "Lokasi tidak boleh kosong",
                                       obscure: false,
@@ -171,7 +171,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     LongTextFormGlobal(
-                                      controller: loveStory,
+                                      controller: loveStoryController,
                                       maxCharacter: 250,
                                       text: 'blablabla',
                                       error: "Cerita Cinta tidak boleh kosong",
@@ -181,7 +181,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     const SizedBox(height: 15),
                                     const SizedBox(height: 15),
                                     LongTextFormGlobal(
-                                      controller: quote,
+                                      controller: quoteController,
                                       text: 'quote',
                                       error: "Quote tidak boleh kosong",
                                       maxCharacter: 150,
@@ -198,7 +198,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     ),
                                     const SizedBox(height: 15),
                                     TextFormGlobal(
-                                      controller: quote,
+                                      controller: quoteController,
                                       text: 'quote',
                                       error: "Quote tidak boleh kosong",
                                       obscure: false,
@@ -229,22 +229,22 @@ class _FormInvitation3State extends State<FormInvitation3> {
               FloatingActionButton(
                 backgroundColor: GlobalColors.mainColor,
                 onPressed: () {
-                  // if (formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                   formData.updateDetailInvitation(
-                    mempelaiPria.text,
-                    mempelaiWanita.text,
-                    weddingLocation.text,
-                    weddingDate.text,
-                    loveStory.text,
-                    quote.text,
-                    eventStartTime.text,
-                    eventTimeEnds.text,
+                    mempelaiPriaController.text,
+                    mempelaiWanitaController.text,
+                    weddingLocationController.text,
+                    weddingDateController.text,
+                    loveStoryController.text,
+                    quoteController.text,
+                    eventStartTimeController.text,
+                    eventTimeEndsController.text,
                   );
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return FormInvitation5();
                   }));
-                  // } else {}
+                  } else {}
                 },
                 child: Icon(Icons.keyboard_arrow_right),
               ),

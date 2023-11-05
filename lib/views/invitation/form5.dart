@@ -60,6 +60,7 @@ class _FormInvitation5State extends State<FormInvitation5> {
 
     var topping = 100000;
     final totalPrice = topping + price;
+    final image=formData.Image;
 
     return Scaffold(
         body: SingleChildScrollView(
@@ -100,23 +101,29 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                         child: Text(theme['name']),
                                       ),
                                       const SizedBox(height: 15),
-                                      Image.asset('assets/images/theme.png'),
+                                      
+                                      
+                                      // menampilkan image
+                                      image != null
+                                      ? Image.file(
+                                        image!
+                                      ):Image.asset('assets/images/theme.png'),
                                       const SizedBox(height: 15),
                                       Container(
                                           padding:
-                                              const EdgeInsets.only(left: 5),
+                                          const EdgeInsets.only(left: 5),
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 formData.titleInvitation,
                                                 style: TextStyle(
                                                     color:
-                                                        GlobalColors.maintext,
+                                                    GlobalColors.maintext,
                                                     fontSize: 18,
                                                     fontWeight:
-                                                        FontWeight.w600),
+                                                    FontWeight.w600),
                                               ),
                                               const SizedBox(height: 10),
                                               Container(
@@ -134,7 +141,7 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                                               .unselected,
                                                           fontSize: 15,
                                                           fontWeight:
-                                                              FontWeight.w600),
+                                                          FontWeight.w600),
                                                     ),
                                                   ],
                                                 ),
@@ -155,7 +162,7 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                                               .unselected,
                                                           fontSize: 15,
                                                           fontWeight:
-                                                              FontWeight.w600),
+                                                          FontWeight.w600),
                                                     ),
                                                   ],
                                                 ),
@@ -176,7 +183,7 @@ class _FormInvitation5State extends State<FormInvitation5> {
                                                               .unselected,
                                                           fontSize: 15,
                                                           fontWeight:
-                                                              FontWeight.w600),
+                                                          FontWeight.w600),
                                                     ),
                                                   ],
                                                 ),

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gala_kita/models/form_data.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/navigations/navigation_bar.dart';
 import 'package:gala_kita/views/invitation/form5.dart';
 import 'package:gala_kita/views/widgets/button/button_add_file.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class FormInvitation4 extends StatefulWidget {
@@ -25,18 +27,25 @@ class __FormInvitation4State extends State<FormInvitation4> {
     final XFile? imagePicked =
         await _picker.pickImage(source: ImageSource.gallery);
 
-      
+    if (imagePicked != null) {
+      setState(() {
+        image = File(imagePicked!.path);
+        final ImageProvider =
+            Provider.of<FormDataUndanangan>(context, listen: false);
+        ImageProvider.saveImage(File(imagePicked.path));
+      });
+    }
     //convert file Xfile ke file
-    image = File(imagePicked!.path);
 
     setState(() {});
   }
+
   Future getVideo() async {
     final ImagePicker _picker = ImagePicker();
 
-    //untuk pilih video 
-    final XFile? galleryVideo=
-      await _picker.pickVideo(source: ImageSource.gallery);
+    //untuk pilih video
+    final XFile? galleryVideo =
+        await _picker.pickVideo(source: ImageSource.gallery);
 
     setState(() {});
   }
@@ -96,8 +105,8 @@ class __FormInvitation4State extends State<FormInvitation4> {
                 //menampilkan image yang di pilih
                 image != null
                     ? Container(
-                        height: 200,
-                        width: MediaQuery.of(context).size.width,
+                        height: 150,
+                        width: 150,
                         child: Image.file(
                           image!,
                           fit: BoxFit.cover,
@@ -120,7 +129,6 @@ class __FormInvitation4State extends State<FormInvitation4> {
                   },
                 ),
 
-                
                 const SizedBox(height: 20),
                 Text(
                   'Gallery Prewed ',
@@ -131,16 +139,14 @@ class __FormInvitation4State extends State<FormInvitation4> {
                 ),
                 const SizedBox(height: 20),
                 InkWell(
-                  child:Container(
-                    child:const buttonAddFile(caption: 'Max 10 Foto'),
-
+                  child: Container(
+                    child: const buttonAddFile(caption: 'Max 10 Foto'),
                   ),
-                  onTap: ()async{
+                  onTap: () async {
                     await getVideo();
                   },
                 ),
                 const SizedBox(height: 20),
-              
 
                 Text(
                   'Video Preweding (Optional) ',

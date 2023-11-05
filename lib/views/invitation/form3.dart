@@ -64,7 +64,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                       controller: mempelaiPriaController,
                                       text: 'Benno',
                                       error:
-                                          "Nama Mempelai Pria tidak boleh kosong",
+                                      "Nama Mempelai Pria tidak boleh kosong",
                                       obscure: false,
                                       textInputType: TextInputType.text,
                                     ),
@@ -80,7 +80,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     TextFormGlobal(
                                       controller: mempelaiWanitaController,
                                       error:
-                                          "Nama Mempelai Wanita tidak boleh kosong",
+                                      "Nama Mempelai Wanita tidak boleh kosong",
                                       text: 'Tyas',
                                       obscure: false,
                                       textInputType: TextInputType.text,
@@ -104,7 +104,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     Container(
                                       child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             'Jam Mulai ',
@@ -128,7 +128,7 @@ class _FormInvitation3State extends State<FormInvitation3> {
                                     Container(
                                       child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         children: [
                                           TimeFormGlobal(
                                               text: "jam awal",
@@ -230,20 +230,20 @@ class _FormInvitation3State extends State<FormInvitation3> {
                 backgroundColor: GlobalColors.mainColor,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                  formData.updateDetailInvitation(
-                    mempelaiPriaController.text,
-                    mempelaiWanitaController.text,
-                    weddingLocationController.text,
-                    weddingDateController.text,
-                    loveStoryController.text,
-                    quoteController.text,
-                    eventStartTimeController.text,
-                    eventTimeEndsController.text,
-                  );
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return FormInvitation5();
-                  }));
+                    formData.updateDetailInvitation(
+                      mempelaiPriaController.text,
+                      mempelaiWanitaController.text,
+                      weddingLocationController.text,
+                      weddingDateController.text,
+                      loveStoryController.text,
+                      quoteController.text,
+                      eventStartTimeController.text,
+                      eventTimeEndsController.text,
+                    );
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return FormInvitation5();
+                    }));
                   } else {}
                 },
                 child: Icon(Icons.keyboard_arrow_right),

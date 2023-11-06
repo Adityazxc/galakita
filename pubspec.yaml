@@ -49,6 +49,9 @@ dependencies:
   settings_ui: ^2.0.2
   get: ^4.6.6
   page_transition: ^2.1.0
+  sqflite: ^2.2.8
+  sqflite_common_ffi: ^2.3.0+3
+  sqlite3_flutter_libs: ^0.4.0+1
 
 dev_dependencies:
   flutter_test:

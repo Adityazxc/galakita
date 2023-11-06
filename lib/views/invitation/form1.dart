@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gala_kita/models/db_invitation.dart';
+import 'package:gala_kita/models/invitation.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/invitation/button_close.dart';
 import 'package:gala_kita/views/invitation/form2.dart';
-import 'package:gala_kita/views/invitation/form3.dart';
 import 'package:gala_kita/views/invitation/form5.dart';
 import 'package:gala_kita/views/invitation/get_list_theme.dart';
-import 'package:gala_kita/views/invitation/views_list_package.dart';
 import 'package:gala_kita/views/widgets/text/text_form_global.dart';
-import 'package:gala_kita/views/widgets/text/text_header_package.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:gala_kita/models/form_data.dart';
-
+import 'package:sqflite/sqflite.dart';
 import '../../service/list_theme.dart';
 
 class FormInvitation extends StatefulWidget {
@@ -24,21 +23,35 @@ class FormInvitation extends StatefulWidget {
 class _FormInvitation extends State<FormInvitation> {
   List theme = [];
   List<Color> borderColors = [];
-  int? categoryTheme =1;
+  int? categoryTheme = 1;
   int? selectedThemeIndex;
-
-  final formKey = GlobalKey<FormState>();
-  final TextEditingController titleInvitation = TextEditingController();
-  final TextEditingController urlWebInvitation = TextEditingController();
   String previewUrlInvitation = '';
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController titleInvitationController = TextEditingController();
+  final TextEditingController urlWebInvitationController = TextEditingController();
+
+  int id =0;
+  String title="";
+  String url="";
+  String theme_id="";
+  List<InvitationModel> Invitation=[];
+
 
   @override
   void initState() {
     super.initState();
     loadThemeData(categoryTheme);
-    urlWebInvitation.addListener(() {
+    urlWebInvitationController.addListener(() {
       setState(() {
-        previewUrlInvitation = urlWebInvitation.text;
+        previewUrlInvitation = urlWebInvitationController.text;
+      });
+    });
+
+    //mengambil data di database
+    WidgetsBinding.instance.addPostFrameCallback((_) async{
+      Invitation = await DbInvitation.instance.getInvitations();
+      setState(() {
+
       });
     });
   }
@@ -106,12 +119,19 @@ class _FormInvitation extends State<FormInvitation> {
                 ),
                 const SizedBox(height: 15),
                 TextFormGlobal(
-                  controller: titleInvitation,
+                  controller: titleInvitationController,
                   text: 'Undangan Benno Tyas',
                   error: "Judul Undangan tidak boleh kosong",
                   obscure: false,
                   textInputType: TextInputType.text,
                 ),
+                // TextFormField(
+                //   controller: titleInvitationController,
+                //   decoration: const InputDecoration(hintText: "title"),
+                //   validator: (value) => _onValidateText(value),
+                //   keyboardType: TextInputType.text,
+                //   onSaved: (value) => title= value.toString(),
+                // ),
                 const SizedBox(height: 5),
                 Text(
                   '* Judul Undangan tidak akan mempengaruhi isi ',
@@ -130,7 +150,7 @@ class _FormInvitation extends State<FormInvitation> {
                 ),
                 const SizedBox(height: 15),
                 TextFormGlobal(
-                  controller: urlWebInvitation,
+                  controller: urlWebInvitationController,
                   text: 'benno-tyas',
                   error: "Alamat Website tidak boleh kosong",
                   obscure: false,
@@ -209,6 +229,7 @@ class _FormInvitation extends State<FormInvitation> {
                     }).toList(),
                   ),
                 ),
+
               ],
             )),
       ),
@@ -220,7 +241,7 @@ class _FormInvitation extends State<FormInvitation> {
               formKey.currentState!.validate() &&
               selectedThemeIndex != null) {
             formData.updateDataInvitation(
-                titleInvitation.text, urlWebInvitation.text);
+                titleInvitationController.text, urlWebInvitationController.text);
             Navigator.push(
                 context,
                 PageTransition(
@@ -235,5 +256,30 @@ class _FormInvitation extends State<FormInvitation> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+  String? _onValidateText(String? value){
+    if(value?.isEmpty ?? true)return 'tidak boleh kosong';
+    return null;
+  }
+
+  _onSaveInvitation()async{
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    if(formKey.currentState?.validate()??false){
+      formKey.currentState?.save();
+      urlWebInvitationController.text='';
+      titleInvitationController.text='';
+
+      await DbInvitation.instance.insertInvitation(InvitationModel(
+          id: id,
+          title: title,
+          url: url,
+          themeId: theme_id,
+      ));
+      Invitation=await DbInvitation.instance.getInvitations();
+      setState(() {
+
+      });
+    }
   }
 }

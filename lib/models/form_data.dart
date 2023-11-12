@@ -17,7 +17,7 @@ class FormDataUndanangan extends ChangeNotifier {
   // String idPackage='';
   // String idTheme='';
 
-  String titleInvitation = 'Undangan Benno';
+  String titleInvitation = '';
   String urlWebInvitation = '';
   String mempelaiPria = 'Benno Anggara';
   String mempelaiWanita = 'Tyas aja';
@@ -28,11 +28,11 @@ class FormDataUndanangan extends ChangeNotifier {
   String eventStartTime = '16:00';
   String eventTimeEnds = '17:00';
   String selectPackage= '5';
-  String idPackage='2';
-  String idTheme='1';
+  int idPackage=2;
+  int idTheme=0;
 
   File? _image;
-  File? get Image=> _image;
+  File? get image=> _image;
   
   void saveImage(File newImage){
     _image=newImage;
@@ -71,14 +71,14 @@ class FormDataUndanangan extends ChangeNotifier {
   }
 
   void updateSelectPackage(
-      String newIdPackage,
+      int newIdPackage,
       ){
     idPackage=newIdPackage;
     notifyListeners();
   }
 
   void updateSelectTheme(
-      String newIdTheme
+      int newIdTheme
       ) {
     idTheme=newIdTheme;
     notifyListeners();

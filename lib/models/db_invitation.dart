@@ -1,101 +1,81 @@
-import 'package:gala_kita/models/invitation.dart';
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
-class DbInvitation {
-  static const _databaseName = 'MyDatabase.db';
-  static const _databaseV1 = 1;
-  static const tableInvitation = 'Invitation';
-
-  //Singleton class
-  DbInvitation._privateConstructor();
-
-  static final DbInvitation instance = DbInvitation._privateConstructor();
-
-  static Database? _database;
-
-  Future<Database> get database async {
-    if (_database != null) return database!;
-    _database = await _initDatabase();
-    return _database!;
-  }
-
-  _initDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, _databaseName);
-
-    return await openDatabase(path, version: _databaseV1,
-        onCreate: (db, version) async {
-      var batch = db.batch();
-      _onCreateTableInvitation(batch);
-
-      await batch.commit();
-    });
-  }
-
-  _onCreateTableInvitation(Batch batch) {
-    batch.execute('''
-    CREATE TABLE $tableInvitation(
-    ${Constant.id} INTEGER PRIMARY KEY AUTOINCREMENT,
-    ${Constant.title} title TEXT,
-    ${Constant.url} TEXT,
-    ${Constant.theme_id} INTEGER
+class DatabaseHelper {
+  static Future<void> createTables(sql.Database database) async {
+    await database.execute(""" CREATE TABLE invitation(
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title TEXT,
+    url TEXT,
+    themeId INTEGER
     )
-    ''');
+    """);
   }
 
-  Future<int> insertInvitation(InvitationModel model) async {
-    Database db = await instance.database;
-    return await db.insert(
-      tableInvitation,
-      model.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<void> insertInvitations(List<InvitationModel> models) async {
-    Database db = await instance.database;
-
-    Batch batch = db.batch();
-    for (var model in models) {
-      batch.insert(tableInvitation, model.toMap(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
-    }
-    await batch.commit(noResult: true);
-  }
-
-  Future<List<InvitationModel>> getInvitations() async {
-    Database db = await instance.database;
-
-    // var allData = await db.rawQuery("SELECT * FROM $tableStudent");
-    var allData = await db.query(tableInvitation);
-
-    return List.generate(allData.length, (i) {
-      return InvitationModel(
-          id: int.parse(allData[i][Constant.id].toString()),
-          title: allData[i][Constant.title] as String,
-          url: allData[i][Constant.url] as String,
-          themeId: allData[i][Constant.theme_id] as String);
+  static Future<sql.Database> db() async {
+    return sql.openDatabase('galakita.db', version: 1,
+        onCreate: (sql.Database database, int version) async {
+      await createTables(database);
     });
   }
 
-  Future<InvitationModel?> getInvitationById(int id) async {
-    Database db = await instance.database;
+  // Create new item
+  static Future<int> createItem(String? title, String? url, int themeId) async {
+    final db = await DatabaseHelper.db();
 
-    var allData = await db.query(
-      tableInvitation,
-      where: '${Constant.id}=?',
-      whereArgs: [id],
-    );
+    final data = {'title': title, 'url': url,'themeId':themeId};
+    final id = await db.insert('invitation', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  }
 
-    if(allData.isNotEmpty){
-      return InvitationModel(
-          id: int.parse(allData[0][Constant.id] as String),
-          title: allData[0][Constant.title] as String,
-          url: allData[0][Constant.url] as String,
-          themeId: allData[0][Constant.theme_id] as String,
-      );
+  //create all item
+  static Future<List<Map<String, dynamic>>> getItems() async {
+    final db = await DatabaseHelper.db();
+    return db.query('invitation', orderBy: 'id');
+  }
+
+  //get data
+  static Future<List<Map<String, dynamic>>> getItem(int id, int themeId) async {
+    final db = await DatabaseHelper.db();
+    return db.query('invitation', where: "id=?" , whereArgs: [id, themeId], limit: 1);
+  }
+
+
+  //update data
+  static Future<int> updateItem(int id, String? title, String? url, int themeId) async {
+    final db = await DatabaseHelper.db();
+    final data = {
+      'title': title,
+      'url': url,
+      'themeId': themeId,
+    };
+    final result =
+        await db.update('invitation', data, where: 'id', whereArgs: [id]);
+    return result;
+  }
+
+
+//  delete data
+  static Future<void> deleteItem(int id) async {
+    final db = await DatabaseHelper.db();
+    try {
+      await db.delete("invitation", where: "id = ?", whereArgs: [id]);
+    } catch (err) {
+      debugPrint("Something went wrong when deleting an item: $err");
     }
-      return null;
+  }
+
+  static void history() async {
+    final database = await openDatabase('galakita.db');
+
+    final tableName = "invitation";
+
+    final tableInfo = await database.rawQuery('PRAGMA table_info($tableName)');
+
+    for (var row in tableInfo) {
+      print(row);
+    }
   }
 }

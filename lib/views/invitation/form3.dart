@@ -33,197 +33,197 @@ class _FormInvitation3State extends State<FormInvitation3> {
     final formData = Provider.of<FormDataUndanangan>(context, listen: false);
 
     return Scaffold(
-        body: Column(
-          children: [
-            Container(
-                padding: const EdgeInsets.all(15.0),
-                child: ButtonClose(text: "Langkah 3 dari 5", currentStep: 3)),
-            Expanded(
-              child: CustomScrollView(
-                slivers: <Widget>[
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                  padding: const EdgeInsets.only(right: 15.0,left: 15.0,bottom: 15.0),
+                  child: const ButtonClose(text: "Langkah 3 dari 5", currentStep: 3)),
+              Expanded(
+                child: CustomScrollView(
+                  slivers: <Widget>[
 
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      <Widget>[
-                        Container(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Form(
-                                key: formKey,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Nama Mempelai Pria ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        <Widget>[
+                          Container(
+                              padding: const EdgeInsets.only(right: 15.0,left: 15.0,bottom: 15.0),
+                              child: Form(
+                                  key: formKey,
+                                  child: SafeArea(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Nama Mempelai Pria ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormGlobal(
+                                          controller: mempelaiPriaController,
+                                          text: 'Benno',
+                                          error:
+                                          "Nama Mempelai Pria tidak boleh kosong",
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                          'Nama Mempelai Wanita ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormGlobal(
+                                          controller: mempelaiWanitaController,
+                                          error:
+                                          "Nama Mempelai Wanita tidak boleh kosong",
+                                          text: 'Tyas',
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                          'Tanggal Pernikahan ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        DateFormGlobal(
+                                          controller: weddingDateController,
+                                          text: 'Masukkan tanggal acara',
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'Jam Mulai ',
+                                              style: TextStyle(
+                                                  color: GlobalColors.textColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const SizedBox(width: 130),
+                                            Text(
+                                              'Jam Selesai ',
+                                              style: TextStyle(
+                                                  color: GlobalColors.textColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                          children: [
+                                            TimeFormGlobal(
+                                                text: "jam awal",
+                                                controller: eventStartTimeController,
+                                                textInputType: TextInputType.text,
+                                                obscure: false),
+                                            //untuk memisahkan objek yang berdempetan
+                                            Expanded(child: Container()),
+                                            TimeFormGlobal(
+                                                controller: eventTimeEndsController,
+                                                text: "jam Akhir",
+                                                textInputType: TextInputType.text,
+                                                obscure: false),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                          'Lokasi Pernikahan ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormGlobal(
+                                          controller: weddingLocationController,
+                                          text: 'benno-tyas',
+                                          error: "Lokasi tidak boleh kosong",
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                          'Cerita Cinta ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        LongTextFormGlobal(
+                                          controller: loveStoryController,
+                                          maxCharacter: 250,
+                                          text: 'blablabla',
+                                          error: "Cerita Cinta tidak boleh kosong",
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        const SizedBox(height: 15),
+                                        LongTextFormGlobal(
+                                          controller: quoteController,
+                                          text: 'quote',
+                                          error: "Quote tidak boleh kosong",
+                                          maxCharacter: 150,
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                          'Quote ',
+                                          style: TextStyle(
+                                              color: GlobalColors.textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormGlobal(
+                                          controller: quoteController,
+                                          text: 'quote',
+                                          error: "Quote tidak boleh kosong",
+                                          obscure: false,
+                                          textInputType: TextInputType.text,
+                                        ),
+                                        const SizedBox(height: 70),
+                                      ],
                                     ),
-                                    const SizedBox(height: 15),
-                                    TextFormGlobal(
-                                      controller: mempelaiPriaController,
-                                      text: 'Benno',
-                                      error:
-                                      "Nama Mempelai Pria tidak boleh kosong",
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Nama Mempelai Wanita ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    TextFormGlobal(
-                                      controller: mempelaiWanitaController,
-                                      error:
-                                      "Nama Mempelai Wanita tidak boleh kosong",
-                                      text: 'Tyas',
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Tanggal Pernikahan ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    DateFormGlobal(
-                                      controller: weddingDateController,
-                                      text: 'Masukkan tanggal acara',
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            'Jam Mulai ',
-                                            style: TextStyle(
-                                                color: GlobalColors.textColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(width: 130),
-                                          Text(
-                                            'Jam Selesai ',
-                                            style: TextStyle(
-                                                color: GlobalColors.textColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: [
-                                          TimeFormGlobal(
-                                              text: "jam awal",
-                                              controller: eventStartTimeController,
-                                              textInputType: TextInputType.text,
-                                              obscure: false),
-                                          //untuk memisahkan objek yang berdempetan
-                                          Expanded(child: Container()),
-                                          TimeFormGlobal(
-                                              controller: eventTimeEndsController,
-                                              text: "jam Akhir",
-                                              textInputType: TextInputType.text,
-                                              obscure: false),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Lokasi Pernikahan ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    TextFormGlobal(
-                                      controller: weddingLocationController,
-                                      text: 'benno-tyas',
-                                      error: "Lokasi tidak boleh kosong",
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Cerita Cinta ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    LongTextFormGlobal(
-                                      controller: loveStoryController,
-                                      maxCharacter: 250,
-                                      text: 'blablabla',
-                                      error: "Cerita Cinta tidak boleh kosong",
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    const SizedBox(height: 15),
-                                    LongTextFormGlobal(
-                                      controller: quoteController,
-                                      text: 'quote',
-                                      error: "Quote tidak boleh kosong",
-                                      maxCharacter: 150,
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Quote ',
-                                      style: TextStyle(
-                                          color: GlobalColors.textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    TextFormGlobal(
-                                      controller: quoteController,
-                                      text: 'quote',
-                                      error: "Quote tidak boleh kosong",
-                                      obscure: false,
-                                      textInputType: TextInputType.text,
-                                    ),
-                                    const SizedBox(height: 70),
-                                  ],
-                                ))),
-                      ],
+                                  ))),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         floatingActionButton: Padding(
-            padding: EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 30),
             child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
               FloatingActionButton(
                 backgroundColor: GlobalColors.mainColor,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Icon(Icons.keyboard_arrow_left),
+                child: const Icon(Icons.keyboard_arrow_left),
               ),
               Expanded(child: Container()),
               FloatingActionButton(
@@ -242,11 +242,11 @@ class _FormInvitation3State extends State<FormInvitation3> {
                     );
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return FormInvitation5();
+                      return const FormInvitation5();
                     }));
                   } else {}
                 },
-                child: Icon(Icons.keyboard_arrow_right),
+                child: const Icon(Icons.keyboard_arrow_right),
               ),
             ])));
   }

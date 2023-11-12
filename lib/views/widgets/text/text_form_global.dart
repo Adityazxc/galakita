@@ -7,11 +7,13 @@ class TextFormGlobal extends StatelessWidget {
         required this.text,
         required this.error,
         required this.textInputType,
-        required this.obscure});
+        required this.obscure,
+      });
   final TextEditingController controller;
   final String text, error;
   final TextInputType textInputType;
   final bool obscure;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class TextFormGlobal extends StatelessWidget {
             controller: controller,
             keyboardType: TextInputType.multiline,
             obscureText: obscure,
+
             decoration: InputDecoration(
                 hintText: text,
                 border: InputBorder.none,

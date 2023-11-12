@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/navigations/navigation_bar.dart';
 import 'package:gala_kita/views/signup.dart';
@@ -101,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
 
                 // const ButtonGlobal(),
                 // ElevatedButton(
-                //     onPressed: _signIn, 
+                //     onPressed: _signIn,
                 //     child: Text("Login Berhasil")),
 
 

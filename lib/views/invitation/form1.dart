@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gala_kita/models/db_invitation.dart';
+import 'package:gala_kita/models/database/db_invitation.dart';
 import 'package:gala_kita/utils/global.colors.dart';
 import 'package:gala_kita/views/invitation/button_close.dart';
 import 'package:gala_kita/views/invitation/form2.dart';
@@ -25,6 +25,7 @@ class _FormInvitation extends State<FormInvitation> {
   int? categoryTheme = 1;
   int? selectedThemeIndex = 0;
   String previewUrlInvitation = '';
+  int? editingItemId;
 
   final formKey = GlobalKey<FormState>();
   final TextEditingController titleInvitationController =
@@ -33,35 +34,24 @@ class _FormInvitation extends State<FormInvitation> {
       TextEditingController();
 
   //koneksi ke sqflite
-  final bool _isEditMode = true;
-   bool _isLoading = true;
+
   List<Map<String, dynamic>> invitation = [];
+
 
 // Insert a new data to the database
 
-  Future<void> addItem(int themeId) async {
+  Future<int> addItem(int themeId) async {
     final title = titleInvitationController.text;
-    final url = urlWebInvitationController.text ;
-
-    if (title.isNotEmpty && url.isNotEmpty) {
-      await DatabaseHelper.createItem(title, url, themeId);
-      // Simpan data form ke Shared Preferences
-      saveFormDataLocally(title, url, themeId);
-      _refreshData();
-    }
-  }
-
-  // Update an existing data
-  Future<void> updateItem(int id, int themeId) async {
-    final title = titleInvitationController.text ;
     final url = urlWebInvitationController.text;
 
     if (title.isNotEmpty && url.isNotEmpty) {
-      await DatabaseHelper.updateItem(id, title, url, themeId);
-
-      //menyimpan data form ke Shared Preferences
+      final id = await DatabaseInvitation.createItem(title, url, themeId);
+      // Simpan data form ke Shared Preferences
       saveFormDataLocally(title, url, themeId);
       _refreshData();
+      return id;
+    } else {
+      return -1;
     }
   }
 
@@ -73,10 +63,9 @@ class _FormInvitation extends State<FormInvitation> {
   }
 
   void _refreshData() async {
-    final data = await DatabaseHelper.getItems();
+    final data = await DatabaseInvitation.getItems();
     setState(() {
       invitation = data;
-      _isLoading = false;
     });
   }
 
@@ -92,7 +81,7 @@ class _FormInvitation extends State<FormInvitation> {
     _refreshData();
     _loadSavedFormData();
     //get data dari database
-    DatabaseHelper.history();
+    DatabaseInvitation.history();
   }
 
   void _loadSavedFormData() async {
@@ -102,22 +91,20 @@ class _FormInvitation extends State<FormInvitation> {
     final savedUrl = prefs.getString('savedUrl') ?? '';
     final savedThemeId = prefs.getInt('savedThemeId') ?? 1;
 
-
     setState(() {
       titleInvitationController.text = savedTitle;
       urlWebInvitationController.text = savedUrl;
       formData.updateSelectPackage(savedThemeId);
-
     });
   }
 
   void deleteItem(int id) async {
-    await DatabaseHelper.deleteItem(id);
+    await DatabaseInvitation.deleteItem(id);
 
     // Membersihkan data form di Shared Preferences
     clearFormDataLocally();
 
-    if(!context.mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Successfully deleted!'), backgroundColor: Colors.green));
     _refreshData();
@@ -134,7 +121,7 @@ class _FormInvitation extends State<FormInvitation> {
     final filteredTheme = <Map<String, dynamic>>[];
     final categories = <int>{}; //agar data tidak double
 
-    for(var theme  in themeData) {
+    for (var theme in themeData) {
       final categoryId = theme['categoryId'];
       if (!categories.contains(categoryId)) {
         // Menambahkan kategori unik ke daftar kategori
@@ -144,13 +131,13 @@ class _FormInvitation extends State<FormInvitation> {
         //mengganti '1' dengan ID kategori yang ingin di
         filteredTheme.add(theme);
       }
-    };
+    }
+    ;
 
     setState(() {
       theme = filteredTheme;
       borderColors = List.generate(theme.length, (index) => Colors.white);
     });
-
   }
 
   void selectTheme(int index) {
@@ -191,26 +178,6 @@ class _FormInvitation extends State<FormInvitation> {
                         fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 15),
-                  // TextFormField(
-                  //   controller: titleInvitationController,
-                  //   decoration: InputDecoration(
-                  //     hintText: 'Undangan Benno Tyas',
-                  //   ),
-                  //
-                  //   obscureText: false,
-                  //   keyboardType: TextInputType.multiline,
-                  //   onChanged: (value) {
-                  //     // Aksi yang akan dijalankan saat nilai formulir berubah
-                  //     // Di sini, kita tidak memerlukan tombol "Update", karena pembaruan otomatis terjadi setiap kali formulir berubah.
-                  //     setState(() {
-                  //       // Update data yang ada
-                  //       formData.updateDataInvitation(
-                  //           titleInvitationController.text,
-                  //           urlWebInvitationController.text);
-                  //     });
-                  //   },
-                  // ),
-
                   TextFormGlobal(
                     controller: titleInvitationController,
                     text: 'Undangan Benno Tyas',
@@ -242,25 +209,6 @@ class _FormInvitation extends State<FormInvitation> {
                     obscure: false,
                     textInputType: TextInputType.text,
                   ),
-                  // TextFormField(
-                  //   controller: urlWebInvitationController,
-                  //   decoration: InputDecoration(
-                  //     hintText: 'Alamat Website tidak boleh kosong',
-                  //   ),
-                  //
-                  //   obscureText: false,
-                  //   keyboardType: TextInputType.multiline,
-                  //   onChanged: (value) {
-                  //     // Aksi yang akan dijalankan saat nilai formulir berubah
-                  //     // Di sini, kita tidak memerlukan tombol "Update", karena pembaruan otomatis terjadi setiap kali formulir berubah.
-                  //     setState(() {
-                  //       // Update data yang ada
-                  //       formData.updateDataInvitation(
-                  //           titleInvitationController.text,
-                  //           urlWebInvitationController.text);
-                  //     });
-                  //   },
-                  // ),
                   const SizedBox(height: 5),
                   Text(
                     'https://galakita.com/u/$previewUrlInvitation',
@@ -308,7 +256,6 @@ class _FormInvitation extends State<FormInvitation> {
                               saveTheme.updateSelectPackage(int.parse(idTheme));
                               print("ini kategori theme $newValue");
                               loadThemeData(categoryTheme);
-
                             }
                           },
                         ),
@@ -333,8 +280,10 @@ class _FormInvitation extends State<FormInvitation> {
                                 context,
                                 listen: false);
                             saveTheme.updateSelectTheme(idTheme);
-                            print("ini id theme $idTheme dengan type data ${idTheme.runtimeType}");
-                            print("ini selectedThemeIndex $selectedThemeIndex dengan type data ${selectedThemeIndex.runtimeType}");
+                            print(
+                                "ini id theme $idTheme dengan type data ${idTheme.runtimeType}");
+                            print(
+                                "ini selectedThemeIndex $selectedThemeIndex dengan type data ${selectedThemeIndex.runtimeType}");
                           },
                           child:
                               getListTheme(context, data, borderColors[index]),
@@ -350,10 +299,19 @@ class _FormInvitation extends State<FormInvitation> {
                             index % 2 == 0 ? Colors.green : Colors.green[200],
                         margin: const EdgeInsets.all(15),
                         child: ListTile(
-                            title: Text(invitation[index]['title']),
-                            subtitle: Column(
+                            title: Row(
                               children: [
+                                Text(invitation[index]['title']),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Text(invitation[index]['url']),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text('ini adalah id :'),
+                                Text(invitation[index]['id'].toString()),
                                 // Text(invitation[index]['themeId']),
                               ],
                             ),
@@ -393,28 +351,19 @@ class _FormInvitation extends State<FormInvitation> {
               // ScaffoldMessenger.of(context)
               //     .showSnackBar(SnackBar(content: Text("ini adalah idTheme1 $idTheme1 dengan typedata ${idTheme1.runtimeType}")));
 
-              print("ini adalah idTheme1 $idTheme1 dengan typedata ${idTheme1.runtimeType}");
+              print(
+                  "ini adalah idTheme1 $idTheme1 dengan typedata ${idTheme1.runtimeType}");
               if (formKey.currentState != null &&
                   formKey.currentState!.validate() &&
                   selectedThemeIndex != null) {
-                // if (invitation != null && invitation.isNotEmpty) {
-                //   if (_isEditMode) {
-                //     await addItem(idTheme1);
-                //     // await updateItem(id!,idTheme1);
-                //   } else {
-                //     await addItem(idTheme1);
-                //   }
-                // } else {
-                //   await addItem(idTheme1);
-                // }
-                  await addItem(idTheme1);
-                //
-                  if(!context.mounted) return;
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeftWithFade,
-                        child:  FormInvitation2()));
+                await addItem(idTheme1);
+
+                if (!context.mounted) return;
+                // Navigator.push(
+                //     context,
+                //     PageTransition(
+                //         type: PageTransitionType.rightToLeftWithFade,
+                //         child:  FormInvitation2()));
               } else if (selectedThemeIndex == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Pilih tema telebih dahulu")));
@@ -427,7 +376,4 @@ class _FormInvitation extends State<FormInvitation> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-
-
 }
-

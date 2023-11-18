@@ -81,6 +81,32 @@ class _homePageState extends State<homePage> {
                     }));
                   },
                 ),
+
+                ListView.builder(itemCount: 2,
+                shrinkWrap: true,
+                itemBuilder: (context, index)=>Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Colors.white, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 7,
+                      )
+                    ],
+                  ),
+                  child: SizedBox(
+                    child: Column(
+                      children: [
+                        Text("Mempelai"),
+                        Text("Tyas & Ben"),
+                      ],
+                    ),
+                  ),
+                ),
+
+                )
               ]),
         ),
       ),

@@ -1,16 +1,32 @@
-# gala_kita
+# Galakita:The invitation is all yours (sedang dikerjakan)
+Aplikasi untuk membuat undangan digital dengan beragam tema yang menarik
 
-A new Flutter project.
+# Introduction
+Galakita adalah sebuah aplikasi untuk membuat undangan digital yang mudah dibuat hanya dengan menggunakan telepon genggam yang bisa diakses dimanapun dan kapanpun. Aplikasi ini membantu calon mempelai untuk mengirimkan undangan dengan mudah, murah dan efisien, dengan cara mengirimkan link url undangan kepada teman maupun kerabat menggunakan broadcast whatsapp. 
+## Features & Screenshots
+|Nama            |Screenshot       |Deskripsi
+|---------------|------------------|-------------------------------------------------|
+|Splash Screen  |![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/splash_screen.png)|Splash Screen biasa dengan menampilkan logo di tengah
+|Login|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/sign_in.jpg)|Login dengan register email dan password
+|Home Page|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/home_page.jpg)|Menu utama untuk menampilkan atau membuat undangan pernikahan baru
+|Preview Invitation|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/preview.jpg)|Menu untuk menampilkan preview undangan pernikahan yang akan dibuat
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Depedencies
+- hexcolor
+- quickalert
+- step_progress_indicator
+- intl
+- image_picker
+- mobkit_dashed_border
+- provider
+- convex_bottom_bar
+- settings_ui
+- get
+- page_transition
+- sqflite
+- shared_preferences
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+

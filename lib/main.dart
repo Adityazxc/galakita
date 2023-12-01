@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gala_kita/models/form_data.dart';
 import 'package:gala_kita/views/invitation/form1.dart';
+import 'package:gala_kita/views/main_screen.dart';
 import 'package:gala_kita/views/navigations/navigation_bar.dart';
+import 'package:gala_kita/views/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
       title: "Galakita",
 
       theme: ThemeData(),
-      home: FormInvitation(),
+      // home: FormInvitation(),
+      home: LoginView(),
       // home: Testing(),
     );
   }

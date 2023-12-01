@@ -6,7 +6,7 @@ Galakita adalah sebuah aplikasi untuk membuat undangan digital yang mudah dibuat
 ## Features & Screenshots
 |Nama            |Screenshot       |Deskripsi
 |---------------|------------------|-------------------------------------------------|
-|Splash Screen  |![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/splash_screen.png)|Splash Screen biasa dengan menampilkan logo di tengah
+|Splash Screen  |![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/splash_screen.jpg)|Splash Screen biasa dengan menampilkan logo di tengah
 |Login|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/sign_in.jpg)|Login dengan register email dan password
 |Home Page|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/home_page.jpg)|Menu utama untuk menampilkan atau membuat undangan pernikahan baru
 |Preview Invitation|![](https://github.com/Adityazxc/galakita/blob/testing/assets/images/preview.jpg)|Menu untuk menampilkan preview undangan pernikahan yang akan dibuat
